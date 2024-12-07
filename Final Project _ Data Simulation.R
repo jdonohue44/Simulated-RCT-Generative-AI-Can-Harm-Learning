@@ -109,7 +109,6 @@ simulated_data_with_betas <- simulated_data_with_betas %>%
     )
   )
 
-
 simulated_data_with_betas <- simulated_data_with_betas %>%
   mutate(
     scores_unassisted = ifelse(
@@ -122,8 +121,6 @@ simulated_data_with_betas <- simulated_data_with_betas %>%
     )
   )
 
-
-
 # run regressions to confirm they look similar to table 1 - would still need some actual statistical tests
 reg_assisted <- lm(scores_assisted ~ GPT_base + GPT_tutor + prev_gpa, data = simulated_data_with_betas)
 summary(reg_assisted)
@@ -131,7 +128,7 @@ summary(reg_assisted)
 reg_unassisted <- lm(scores_unassisted ~ GPT_base + GPT_tutor + prev_gpa, data = simulated_data_with_betas)
 summary(reg_unassisted)
 
-write.csv(simulated_data_with_betas,'/Users/audreychristensen/Desktop/School - F24/Online Experiments/simulated_data', row.names = FALSE)
+write.csv(simulated_data_with_betas,'./simulated_data', row.names = FALSE)
 
 head(simulated_data_with_betas)
 
@@ -156,7 +153,7 @@ long_data <- simulated_data_with_betas %>%
                         scores_unassisted = "Unassisted")
   )
 
-# this one splits it up into asssisted vs unassisted as the larger groups
+# this one splits it up into assisted vs unassisted as the larger groups
 # makes it easier to see the groups compared to each other
 plot1 <- ggplot(long_data, aes(x = group, y = score, fill = group)) +
   geom_boxplot(alpha = 0.7) +
@@ -175,7 +172,7 @@ plot1 <- ggplot(long_data, aes(x = group, y = score, fill = group)) +
     strip.text = element_text(face = "bold")
   )
 
-ggsave("/Users/audreychristensen/Desktop/School - F24/Online Experiments/boxplot1.png", 
+ggsave("./boxplot1.png", 
        plot = plot1, width = 8, height = 6, dpi = 300)
 
 
@@ -197,7 +194,7 @@ plot2 <- ggplot(long_data, aes(x = group, y = score, fill = assistance)) +
     strip.text = element_text(face = "bold")
   )
 
-ggsave("/Users/audreychristensen/Desktop/School - F24/Online Experiments/boxplot2.png", 
+ggsave("./boxplot2.png", 
        plot = plot2, width = 8, height = 6, dpi = 300)
 
 
@@ -262,7 +259,7 @@ plot3 <- long_data_combined %>%
   theme_minimal() + 
   theme(strip.text = element_text(face = "bold"))
 
-ggsave("/Users/audreychristensen/Desktop/School - F24/Online Experiments/histograms_combined.png", 
+ggsave("./histograms_combined.png", 
        plot = plot3, width = 8, height = 6, dpi = 300)
 
 #ridgeline plot 
