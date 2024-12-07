@@ -1,26 +1,33 @@
 ---
 title: "Generative AI Can Harm Learning: A Simulated Randomized Control Trial"
-author: Audrey Christensen (ac5470@columbia.edu), Jared Donohue (jjd2203@columbia.edu)
+author: 
+ - Audrey Christensen (ac5470@columbia.edu)
+ - Jared Donohue (jjd2203@columbia.edu)
 format: html
 date: 2024-12-09
 ---
+
 ## Executive Summary
 As AI-based chatbots have become more widely used, students have naturally began relying on them for homework, studying, and essay writing. However, these chatbots have not been around very long, so the effects on student’s lives long term is not well understood. Many discussions around the use of AI focus on increasing worker productivity and how to keep students from cheating with AI, rather than analyzing the impact that AI use has on learning new skills. 
 
+This paper aims to quantify the impact that use of AI has on students' performance. It does so by creating two distinct chatbots: one modeled after GPT-4 and another designed specifically to promote active learning. Student performance is then evaluated both with and without access to these chatbots.
+
 The results from this experiment found that the base GPT model improved student performance on assisted tasks but lowered it on unassisted tasks, suggesting it hinders learning of new concepts. In contrast, a "tutor GPT" model boosted performance on assisted tasks without significantly affecting unassisted ones, indicating that purpose-built AI models may be a valuable tool for supporting students.
 
-## Basic R Setup
-```{r, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# import libraries
 library(truncnorm)
 library(lmtest)
 library(dplyr)
 library(ggplot2)
 library(ggridges)
 library(tidyr)
+# use seed for reproducibility
 set.seed(4)
 ```
 
 ## Pre-Experiment Analysis
+At the start of the study, students completed a survey capturing their demographics and educational background. During the sessions, student performance was recorded for both the assisted practice and the unassisted evaluations. Additionally, students who interacted with AI chatbots had their chat data logged, and surveys captured their experiences using the tools.
 ```{r, message=FALSE, warning=FALSE}
 ##### information provided in the paper / setup
 n_classes <- 50
@@ -58,6 +65,7 @@ prev_gpa <- rtruncnorm(n_students, a = 0, b = 1, mean = mean_gpa, sd = sd_gpa)
 ```
 
 ## Experiment Setup: Random Assignment
+The research design was a randomized controlled trial involving nearly 1,000 students from 50 classrooms in grades 9 through 11 at a large high school in Turkey. Randomization was performed at the classroom level because students were already randomly assigned to these groups, and honors classrooms were excluded because they are not randomly assigned. Classrooms were randomly assigned to GPT Base, GPT Tutor, or control groups. Assignment probabilities were based on the proportion of students in each group as reported in the original study.
 ```{r, message=FALSE, warning=FALSE}
 # random assignment of class ids
 class_ids <- rep(1:n_classes, each = students_per_class)
@@ -95,6 +103,9 @@ simulated_data <- data.frame(
 ```
 
 ## Run Experiment: Simulate Student Scores
+The study spanned four 90-minute sessions, each with a sequence of 3 activities. First, teachers reviewed the topic with students. Second, students participated in a randomized, assisted AI session, where they either used GPT Base, GPT Tutor, or relied on textbooks and notes (control group). This session was scored to assess performance. Finally, students completed an unassisted evaluation, also scored, to measure how well they had learned the new information.
+
+Student scores are simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper's linear regression model with a small amount of noise to calculate scores for each student.
 ```{r, message=FALSE, warning=FALSE}
 simulated_betas <- data.frame(
   class_id = unique(simulated_data$class_id),
@@ -144,7 +155,10 @@ write.csv(simulated_data_with_betas,'./simulated_data', row.names = FALSE)
 # head(simulated_data_with_betas)
 ```
 
-## Experiment Analysis: Graph Student Scores
+## Experiment Analysis
+Results indicate that use of the chatbots increased performance on the assisted assessment, with GPT Base improving scores by .137 (out of 1) and GPT Tutor improving scores by .361 (out of 1) relative to the control group. On the unassisted assessment, GPT Base decreased performance by .054 (out of one) relative to the control group (17% decrease). GPT Tutor’s impact on the unassisted portion was statistically significant at -.004. 
+
+The researchers also considered alternative analyses, such as examining results at the problem level. However, for this replication, we focus on the overall differences between the GPT Base and GPT Tutor models without exploring problem-level details.
 ```{r, message=FALSE, warning=FALSE}
 # transform data so it's easier to use with ggplot
 long_data <- simulated_data_with_betas %>%
@@ -228,7 +242,6 @@ ggplot(long_data, aes(x = score, fill = group)) +
   )
 
 #vertical histograms
-
 long_data_assist <- long_data %>% 
   filter(assistance == 'Assisted')
 
@@ -251,7 +264,6 @@ long_data_unassist %>% ggplot(aes(score)) +
   facet_grid(group ~ .)
 
 # assisted and unassisted data together on same axis
-
 long_data_combined <- long_data %>%
   filter(assistance %in% c('Assisted', 'Unassisted'))
 
@@ -274,9 +286,7 @@ ggsave("./histograms_combined.png",
        plot = plot3, width = 8, height = 6, dpi = 300)
 
 #ridgeline plot 
-
-long_data_combined %>%
-  ggplot(aes(x = score, y = group, fill = assistance, height = ..density..)) + 
+ggplot(data=long_data_combined, aes(x = score, y = group, fill = assistance, height = ..density..)) + 
   geom_density_ridges(
     alpha = 0.6, 
     scale = .5) +  
