@@ -82,27 +82,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary"><span class="header-section-number">1</span> Executive Summary</a>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link active" data-scroll-target="#executive-summary"><span class="header-section-number">1</span> Executive Summary</a></li>
+  <li><a href="#background-and-additional-context" id="toc-background-and-additional-context" class="nav-link" data-scroll-target="#background-and-additional-context"><span class="header-section-number">2</span> Background and Additional Context</a></li>
+  <li><a href="#methodology-review" id="toc-methodology-review" class="nav-link" data-scroll-target="#methodology-review"><span class="header-section-number">3</span> Methodology Review</a></li>
+  <li><a href="#dataset-creation" id="toc-dataset-creation" class="nav-link" data-scroll-target="#dataset-creation"><span class="header-section-number">4</span> Dataset Creation</a></li>
+  <li><a href="#replication-setup" id="toc-replication-setup" class="nav-link" data-scroll-target="#replication-setup"><span class="header-section-number">5</span> Replication Setup</a></li>
+  <li><a href="#simulation-of-student-scores" id="toc-simulation-of-student-scores" class="nav-link" data-scroll-target="#simulation-of-student-scores"><span class="header-section-number">6</span> Simulation of Student Scores</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">7</span> Results</a>
   <ul class="collapse">
-  <li><a href="#context" id="toc-context" class="nav-link" data-scroll-target="#context"><span class="header-section-number">1.1</span> Context</a></li>
-  </ul></li>
-  <li><a href="#methodology-review" id="toc-methodology-review" class="nav-link" data-scroll-target="#methodology-review"><span class="header-section-number">2</span> Methodology Review</a></li>
-  <li><a href="#dataset-creation" id="toc-dataset-creation" class="nav-link" data-scroll-target="#dataset-creation"><span class="header-section-number">3</span> Dataset Creation</a>
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">7.1</span> Graphs</a></li>
+  <li><a href="#statistical-tests" id="toc-statistical-tests" class="nav-link" data-scroll-target="#statistical-tests"><span class="header-section-number">7.2</span> Statistical Tests</a>
   <ul class="collapse">
-  <li><a href="#replication-setup" id="toc-replication-setup" class="nav-link" data-scroll-target="#replication-setup"><span class="header-section-number">3.1</span> Replication Setup</a></li>
-  <li><a href="#simulatation-of-student-scores" id="toc-simulatation-of-student-scores" class="nav-link" data-scroll-target="#simulatation-of-student-scores"><span class="header-section-number">3.2</span> Simulatation of Student Scores</a></li>
-  </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">4</span> Results</a>
-  <ul class="collapse">
-  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">4.1</span> Graphs</a></li>
-  <li><a href="#statistical-tests" id="toc-statistical-tests" class="nav-link" data-scroll-target="#statistical-tests"><span class="header-section-number">4.2</span> Statistical Tests</a>
-  <ul class="collapse">
-  <li><a href="#regression-analysis" id="toc-regression-analysis" class="nav-link" data-scroll-target="#regression-analysis"><span class="header-section-number">4.2.1</span> Regression Analysis</a></li>
-  <li><a href="#two-sample-t-tests" id="toc-two-sample-t-tests" class="nav-link" data-scroll-target="#two-sample-t-tests"><span class="header-section-number">4.2.2</span> Two Sample T-tests</a></li>
+  <li><a href="#regression-analysis" id="toc-regression-analysis" class="nav-link" data-scroll-target="#regression-analysis"><span class="header-section-number">7.2.1</span> Regression Analysis</a></li>
+  <li><a href="#two-sample-t-tests" id="toc-two-sample-t-tests" class="nav-link" data-scroll-target="#two-sample-t-tests"><span class="header-section-number">7.2.2</span> Two Sample T-tests</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">5</span> Conclusion</a></li>
-  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation"><span class="header-section-number">6</span> Citation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">8</span> Conclusion</a></li>
+  <li><a href="#citation" id="toc-citation" class="nav-link" data-scroll-target="#citation"><span class="header-section-number">9</span> Citation</a></li>
   </ul>
 </nav>
 </div>
@@ -145,16 +141,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="executive-summary" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Executive Summary</h1>
 <p>In this report, we simulate a randomized control trial (RCT) conducted by the Wharton School in 2024, titled: “Generative AI Can Harm Learning”. Our replicated experiment confirmed that having access to Chat GPT-4 improves student performance on math tests, but actually reduces performance when access to Chat GPT is taken away, suggesting it hinders the long-term learning of new concepts. Conversely, using a customized Chat GPT-4 “Tutor” model boosted performance on assisted tasks without significantly affecting unassisted ones, indicating that purpose-built AI models may be a valuable tool for supporting long-term learning.</p>
-<section id="context" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="context"><span class="header-section-number">1.1</span> Context</h2>
+<blockquote class="blockquote">
+<p>Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakcı, Özge and Mariman, Rei, Generative AI Can Harm Learning (July 15, 2024). The Wharton School Research Paper, Available at SSRN: https://ssrn.com/abstract=4895486 or http://dx.doi.org/10.2139/ssrn.4895486</p>
+</blockquote>
+</section>
+<section id="background-and-additional-context" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Background and Additional Context</h1>
 <p>As AI-based chatbots have become more widely used, students have naturally started relying on them for homework, studying, and essay writing. However, these chatbots have not been around very long, so the effects on student learning is not well understood. Many discussions around the use of AI focus on increasing worker productivity and how to keep students from cheating with AI, rather than analyzing the impact that AI use has on students’ long-term learning of new concepts. While AI tools like GPT-4 have shown significant potential to enhance productivity and provide knowledge, they also pose risks, such as inhibiting learning through overreliance or reducing the development of foundational skills. Understanding this tradeoff is essential for ensuring that AI technologies are used responsibly and effectively, particularly in contexts like education where long-term skill development is crucial. There has been an increase in students using AI, and current lesson plans were not designed with that in mind. It would be difficult, at this point, to fully eliminate the use of AI by students. For that reason, it is important to understand the effect that it has on learning.</p>
 <p>This research paper examines the problem of understanding the impact of AI integration in education by quantifying its effects on student performance. One challenge to this type of experiment is finding a way to implement a randomized controlled trial in the real world; this paper addresses that challenge by finding a highschool that randomly assigns its students to classrooms, creating a natural RCT experiment design. The experiment utilizes two custom-designed chatbots: “GPT Base,” modeled after GPT-4, and “GPT Tutor,” optimized for active learning. We evaluate student performance with and without access to these chatbots. The original study’s hypothesis posited that GPT Base may negatively affect students in two ways: by introducing errors that mislead students in subsequent unassisted problems, or by serving as a “crutch” that hinders full engagement with the material. In contrast, GPT Tutor was designed to mitigate these issues, as its prompt includes the solution, reducing the likelihood of errors, and it guides students step-by-step rather than providing direct answers. This approach aims to promote active learning and prevent over-reliance on AI assistance.</p>
 <p>By reproducing this experiment with simulated data, we can demonstrate our ability to design and execute a randomized controlled trial, analyze the resulting data, and draw conclusions that inform the responsible integration of AI in education. The main challenges in replicating this experiment are accurately simulating students’ scores to reflect the impact of the GPT based chatbots and accurately capturing the differences between the GPT Base and GPT Tutor models.</p>
 <p>Despite those potential challenges, this exercise allows us to apply our understanding of experimental methods to a real-world problem, while generating insights that can contribute to the ongoing discussion surrounding the impact of AI technologies on student learning and skill development.</p>
 </section>
-</section>
-<section id="methodology-review" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Methodology Review</h1>
+<section id="methodology-review" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methodology Review</h1>
 <p>The research design was a randomized controlled trial involving nearly 1,000 students from 50 classrooms in grades 9 through 11 at a large high school in Turkey. Randomization was performed at the classroom level because students were already randomly assigned to these groups, and honors classrooms were excluded because they are not randomly assigned.</p>
 <p>The study spanned four 90-minute sessions, each with a sequence of 3 activities. First, teachers reviewed the topic with students. Second, students participated in a randomized, assisted AI session, where they either used GPT Base, GPT Tutor, or relied on textbooks and notes (control group). This session was scored to assess performance. Finally, students completed an unassisted evaluation, also scored, to measure how well they had learned the new information.</p>
 <p>Data was collected in three main ways. At the start of the study, students completed a survey capturing their demographics and educational background. During the sessions, student performance was recorded for both the assisted practice and the unassisted evaluations. Additionally, students who interacted with AI chatbots had their chat data logged, and surveys captured their experiences using the tools.</p>
@@ -163,14 +162,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This experiment was pre-registered on https://aspredicted.org/4DL_Q3J. Pre-registering experiments enhances the transparency and credibility of scientific research. By declaring hypotheses, methods, and analyses in advance, pre-registration helps reduce publication bias and prevents p-hacking, improving the scientific rigor of experiments.</p>
 <p>Handling non-compliance was another interesting aspect of this experiment. In five instances, a treatment classroom could not execute the treatment due to unanticipated external circumstances. In the paper, researchers checked the validity of the results accounting for non-compliance by performing an alternative regression specification where non-compliers are excluded. The results for the alternative regression were nearly identical to the main analysis, confirming that non-compliance did not significantly alter the outcome of the experiment. Due to the negligible effect on overall results, we did not include this alternative regression in our analysis.</p>
 </section>
-<section id="dataset-creation" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Dataset Creation</h1>
+<section id="dataset-creation" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Dataset Creation</h1>
 <p>To construct our dataset, we reverse-engineered the score and classroom data. We modeled 50 classrooms with 20 students each, creating one row per student. Normalized previous GPA values were generated using a normal distribution with a mean of 0.82 and a standard deviation of 0.11, bounded between 0 and 1.</p>
 <p>Classrooms were randomly assigned to GPT Base, GPT Tutor, or control groups. Assignment probabilities were based on the proportion of students in each group as reported in the original study.</p>
 <p>Fixed effects were assigned randomly as integers, including session numbers (1–4), grade levels (9–12), teachers (1–20), and graders (1–10). Fixed effects were excluded from score generation, as their variance was already accounted for in the original study’s regression model. This approach allowed us to focus solely on replicating the treatment effects described in the paper.</p>
 <p>Finally, student scores were simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper’s linear regression model with a small amount of noise to calculate scores for each student.</p>
-<section id="replication-setup" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="replication-setup"><span class="header-section-number">3.1</span> Replication Setup</h2>
+</section>
+<section id="replication-setup" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Replication Setup</h1>
 <p>Our replication focused on using our simulated data to reproduce the main regression model used in the original paper:</p>
 <p>Outcome(j)ic = B1 * GPTBasec + B2 * GPTTutorc + B3 * PrevGPAi + Ts + Dg + Ay + Gt + Eic</p>
 <p>Where Outcome(j)ic is the normalized grade (0-1) for student i in class c for assisted (j=0) or unassisted (j=1) sessions, GPTBasec and GPTTutorc are binary indicators for the treatment group of class c, PrevGPAi is the normalized previous year GPA for student i, Ts, Dg, Ay, and Gt are fixed effects for session, grade, year, and time-related variations, and Eic is the error term.</p>
@@ -242,8 +242,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="simulatation-of-student-scores" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="simulatation-of-student-scores"><span class="header-section-number">3.2</span> Simulatation of Student Scores</h2>
+<section id="simulation-of-student-scores" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Simulation of Student Scores</h1>
 <p>Student scores are simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper’s linear regression model with a small amount of noise to calculate scores for each student.</p>
 <div class="cell">
 <details class="code-fold">
@@ -308,14 +308,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-</section>
-<section id="results" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Results</h1>
+<section id="results" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Results</h1>
 <p>Results show that use of the chatbots increased performance on the assisted assessment, with GPT Base improving scores by .137 (out of 1) and GPT Tutor improving scores by .361 (out of 1) relative to the control group. On the unassisted assessment, GPT Base decreased performance by .054 (out of one) relative to the control group (17% decrease). GPT Tutor’s impact on the unassisted portion was statistically significant at -.004. Our replication yielded results that closely aligned with the original study, with Assisted assessments: GPT Base: Coefficient = 0.135 (SE = 0.021) and GPT Tutor: Coefficient = 0.358 (SE = 0.023). And unassisted assessment of GPT Base: Coefficient = -0.052 (SE = 0.019), and GPT Tutor: Coefficient = -0.005 (SE = 0.020).</p>
 <p>These results are very close to the original study’s findings, where GPT Base improved assisted scores by 0.137 and decreased unassisted scores by 0.054, and GPT Tutor improved assisted scores by 0.361 and had a minimal effect (-0.004) on unassisted scores.</p>
+<p>The p-values of our two-sample t-tests generally align with the original study’s findings, where GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p&lt;0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p=0.0589). All differences between assisted and unassisted scores were statistically significant (p&lt;0.001).</p>
 <p>Our replication successfully reproduced the key findings: GPT Base significantly improved performance on assisted tasks but hindered performance on unassisted tasks, while GPT Tutor substantially improved assisted performance without significantly impacting unassisted performance.</p>
-<section id="graphs" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="graphs"><span class="header-section-number">4.1</span> Graphs</h2>
+<section id="graphs" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="graphs"><span class="header-section-number">7.1</span> Graphs</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -507,11 +507,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="statistical-tests" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="statistical-tests"><span class="header-section-number">4.2</span> Statistical Tests</h2>
-<p>Overall, the p-values of our statistical tests align with the original study’s findings, where GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p&lt;0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p=0.0589). All differences between assisted and unassisted scores were statistically significant (p&lt;0.001).</p>
-<section id="regression-analysis" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="regression-analysis"><span class="header-section-number">4.2.1</span> Regression Analysis</h3>
+<section id="statistical-tests" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="statistical-tests"><span class="header-section-number">7.2</span> Statistical Tests</h2>
+<section id="regression-analysis" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="regression-analysis"><span class="header-section-number">7.2.1</span> Regression Analysis</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -672,8 +671,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="two-sample-t-tests" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="two-sample-t-tests"><span class="header-section-number">4.2.2</span> Two Sample T-tests</h3>
+<section id="two-sample-t-tests" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="two-sample-t-tests"><span class="header-section-number">7.2.2</span> Two Sample T-tests</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -805,14 +804,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="conclusion" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Conclusion</h1>
+<section id="conclusion" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Conclusion</h1>
 <p>Our replication study corroborates the original paper’s findings about the differential impacts of AI chatbots on student learning. Our analysis shows that both of the AI models improved immediate performance (assisted tasks), but the long-term impacts differed significantly depending on which AI chatbot was used. This highlights the importance of distinguishing between short-term assistance and actual learning.</p>
 <p>The stark contrast between GPT Base and GPT Tutor’s effects on unassisted performance underscores the critical role of AI design in educational contexts. Purpose-built AI tutors like GPT Tutor can enhance learning without the detrimental effects seen with general-purpose AI. GPT Tutor’s ability to improve assisted performance without significantly impacting unassisted performance suggests that carefully designed AI tools can be valuable educational assets. This opens up possibilities for integrating AI into curricula in ways that support rather than hinder learning. The negative impact of GPT Base on unassisted performance serves as a warning against uncritical adoption of general-purpose AI in educational settings. It emphasizes the need for careful consideration and possibly regulation of AI use in education.</p>
 <p>This study paves the way for further research into optimizing AI for educational purposes, understanding the long-term impacts of AI use on skill development, and developing best practices for AI integration in various educational contexts. In conclusion, our replication reinforces the original study’s message: while AI has the potential to revolutionize education, its implementation must be thoughtful and purposeful to ensure it enhances rather than hinders genuine learning and skill development.</p>
 </section>
-<section id="citation" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Citation</h1>
+<section id="citation" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Citation</h1>
 <p>Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakcı, Özge and Mariman, Rei, Generative AI Can Harm Learning (July 15, 2024). The Wharton School Research Paper, Available at SSRN: https://ssrn.com/abstract=4895486 or http://dx.doi.org/10.2139/ssrn.4895486</p>
 </section>
 

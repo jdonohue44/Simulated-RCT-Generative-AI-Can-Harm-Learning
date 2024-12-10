@@ -1,33 +1,35 @@
 ---
+# title: "Generative AI Can Harm Learning: A Simulated Randomized Control Trial"
+# author:
+#  - Audrey Christensen (ac5470@columbia.edu)
+#  - Jared Donohue (jjd2203@columbia.edu)
+# date: 2024-12-09
+# format:
+#   html:
+#     toc: true
+#     toc-title: Contents
+#     toc-location: left
+#     code-fold: true
+# number-sections: true
+
 title: "Generative AI Can Harm Learning: A Simulated Randomized Control Trial"
 author:
  - Audrey Christensen (ac5470@columbia.edu)
  - Jared Donohue (jjd2203@columbia.edu)
 date: 2024-12-09
 format:
-  html:
+  pdf:
     toc: true
-    toc-title: Contents
-    toc-location: left
-    code-fold: true
-number-sections: true
-
-# title: "Generative AI Can Harm Learning: A Simulated Randomized Control Trial"
-# author: 
-#  - Audrey Christensen (ac5470@columbia.edu)
-#  - Jared Donohue (jjd2203@columbia.edu)
-# date: 2024-12-09
-# format:
-#   pdf:
-#     toc: true
-#     number-sections: true
-#     colorlinks: true
+    number-sections: true
+    colorlinks: true
 ---
 
 # Executive Summary
 In this report, we simulate a randomized control trial (RCT) conducted by the Wharton School in 2024, titled: "Generative AI Can Harm Learning". Our replicated experiment confirmed that having access to Chat GPT-4 improves student performance on math tests, but actually reduces performance when access to Chat GPT is taken away, suggesting it hinders the long-term learning of new concepts. Conversely, using a customized Chat GPT-4 "Tutor" model boosted performance on assisted tasks without significantly affecting unassisted ones, indicating that purpose-built AI models may be a valuable tool for supporting long-term learning. 
 
-## Context
+>Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakcı, Özge and Mariman, Rei, Generative AI Can Harm Learning (July 15, 2024). The Wharton School Research Paper, Available at SSRN: https://ssrn.com/abstract=4895486 or http://dx.doi.org/10.2139/ssrn.4895486
+
+# Background and Additional Context
 As AI-based chatbots have become more widely used, students have naturally started relying on them for homework, studying, and essay writing. However, these chatbots have not been around very long, so the effects on student learning is not well understood. Many discussions around the use of AI focus on increasing worker productivity and how to keep students from cheating with AI, rather than analyzing the impact that AI use has on students’ long-term learning of new concepts. While AI tools like GPT-4 have shown significant potential to enhance productivity and provide knowledge, they also pose risks, such as inhibiting learning through overreliance or reducing the development of foundational skills. Understanding this tradeoff is essential for ensuring that AI technologies are used responsibly and effectively, particularly in contexts like education where long-term skill development is crucial. There has been an increase in students using AI, and current lesson plans were not designed with that in mind. It would be difficult, at this point, to fully eliminate the use of AI by students. For that reason, it is important to understand the effect that it has on learning. 
 
 This research paper examines the problem of understanding the impact of AI integration in education by quantifying its effects on student performance. One challenge to this type of experiment is finding a way to implement a randomized controlled trial in the real world; this paper addresses that challenge by finding a highschool that randomly assigns its students to classrooms, creating a natural RCT experiment design. The experiment utilizes two custom-designed chatbots: "GPT Base," modeled after GPT-4, and "GPT Tutor," optimized for active learning. We evaluate student performance with and without access to these chatbots. The original study's hypothesis posited that GPT Base may negatively affect students in two ways: by introducing errors that mislead students in subsequent unassisted problems, or by serving as a "crutch" that hinders full engagement with the material. In contrast, GPT Tutor was designed to mitigate these issues, as its prompt includes the solution, reducing the likelihood of errors, and it guides students step-by-step rather than providing direct answers. This approach aims to promote active learning and prevent over-reliance on AI assistance. 
@@ -60,7 +62,7 @@ Fixed effects were assigned randomly as integers, including session numbers (1�
 
 Finally, student scores were simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper's linear regression model with a small amount of noise to calculate scores for each student.
 
-## Replication Setup
+# Replication Setup
 Our replication focused on using our simulated data to reproduce the main regression model used in the original paper: 
 
 Outcome(j)ic = B1 * GPTBasec + B2 * GPTTutorc + B3 * PrevGPAi + Ts + Dg + Ay + Gt + Eic
@@ -148,7 +150,7 @@ teachers <- sample(1:20, n_students, replace = TRUE)
 graders <- sample(1:10, n_students, replace = TRUE)
 ```
 
-## Simulatation of Student Scores
+# Simulation of Student Scores
 Student scores are simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper's linear regression model with a small amount of noise to calculate scores for each student.
 ```{r, message=FALSE, warning=FALSE}
 simulated_data <- data.frame(
@@ -214,6 +216,8 @@ simulated_data_with_betas <- simulated_data_with_betas %>%
 Results show that use of the chatbots increased performance on the assisted assessment, with GPT Base improving scores by .137 (out of 1) and GPT Tutor improving scores by .361 (out of 1) relative to the control group. On the unassisted assessment, GPT Base decreased performance by .054 (out of one) relative to the control group (17% decrease). GPT Tutor’s impact on the unassisted portion was statistically significant at -.004. Our replication yielded results that closely aligned with the original study, with Assisted assessments: GPT Base: Coefficient = 0.135 (SE = 0.021) and GPT Tutor: Coefficient = 0.358 (SE = 0.023). And unassisted assessment of GPT Base: Coefficient = -0.052 (SE = 0.019), and GPT Tutor: Coefficient = -0.005 (SE = 0.020).
 
 These results are very close to the original study's findings, where GPT Base improved assisted scores by 0.137 and decreased unassisted scores by 0.054, and GPT Tutor improved assisted scores by 0.361 and had a minimal effect (-0.004) on unassisted scores.
+
+The p-values of our two-sample t-tests generally align with the original study's findings, where GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p<0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p=0.0589). All differences between assisted and unassisted scores were statistically significant (p<0.001).
 
 Our replication successfully reproduced the key findings: GPT Base significantly improved performance on assisted tasks but hindered performance on unassisted tasks, while GPT Tutor substantially improved assisted performance without significantly impacting unassisted performance.
 
@@ -346,7 +350,6 @@ ggplot(data=long_data_combined, aes(x = score,
 ```
 
 ## Statistical Tests
-Overall, the p-values of our statistical tests align with the original study's findings, where GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p<0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p=0.0589). All differences between assisted and unassisted scores were statistically significant (p<0.001).
 
 ### Regression Analysis
 ```{r, message=FALSE, warning=FALSE}
