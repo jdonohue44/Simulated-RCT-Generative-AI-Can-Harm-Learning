@@ -1,16 +1,6 @@
 # Simulated RCT: "Generative AI Can Harm Learning"
 
-A simulated randomized control trial replicating the Wharton 2024 study by Bastani et al.
-
-## Key Findings (Simulated)
-
-| Condition  | Assisted effect | Unassisted effect |
-|------------|:---------------:|:-----------------:|
-| GPT-Base   | +0.137          | **-0.054**        |
-| GPT-Tutor  | +0.361          | -0.004            |
-
-GPT-Base boosts short-term performance but **hurts** unassisted performance.
-GPT-Tutor improves assisted performance without harming unassisted performance.
+A simulated randomized control trial replicating the Wharton 2024 study by Bastani et al.: "Generative AI without guardrails can harm learning: Evidence from high school mathematics"
 
 ## Project Structure
 
