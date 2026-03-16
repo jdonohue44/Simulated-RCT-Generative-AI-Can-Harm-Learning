@@ -3,5 +3,4 @@
 .Rproj.user/
 .Rdata
 .httr-oauth
-
-index_files/**
+index_files/.DS_Store
