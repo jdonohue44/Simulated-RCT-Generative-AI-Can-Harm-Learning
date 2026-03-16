@@ -1,9 +1,10 @@
 ---
 title: "Generative AI Can Harm Learning: A Simulated Randomized Control Trial"
+subtitle: "Updated in March, 2026 to incorporate author-shared data"
 author:
- - Audrey Christensen (ac5470@columbia.edu)
  - Jared Donohue (jjd2203@columbia.edu)
-date: 2024-12-09
+ - Audrey Christensen (ac5470@columbia.edu)
+date: 2024-12-15
 format:
   html:
     toc: true
@@ -24,6 +25,7 @@ source(here("R", "analysis.R"))
 source(here("R", "visualize.R"))
 source(here("R", "power_analysis.R"))
 source(here("R", "causal_dag.R"))
+source(here("R", "real_data_analysis.R"))
 ```
 
 # Executive Summary
@@ -150,6 +152,56 @@ format_regression_table(regs$unassisted, "Regression Results: Unassisted Scores"
 ```{r ttests, message=FALSE, warning=FALSE}
 tests <- run_all_ttests(simulated_data)
 format_ttest_table(tests)
+```
+
+# Validation with Author-Shared Data
+The authors of Bastani et al. (2024) released `final_data.csv` for reproducibility. We re-ran the paper's main regression, checked covariate balance, and conducted a simple moderator analysis. This section validates that our simulation aligns with the real-data results and provides evidence on balance and heterogeneity.
+
+## Main Regression (Reproduced)
+We replicate the paper's specification: Part 2 (assisted) and Part 3 (unassisted) scores regressed on GPT Base, GPT Tutor, prior GPA, and fixed effects for teacher, session, grader, and year. Standard errors are clustered by class.
+
+```{r real-main-reg, message=FALSE, warning=FALSE}
+df_real <- load_real_data()
+regs_real <- run_main_regression(df_real)
+tbl_real <- format_main_regression_table(regs_real)
+kable(tbl_real, digits = 3,
+      col.names = c("Outcome", "Coefficient", "Estimate", "SE", "95% CI Lower", "95% CI Upper", "p-value"))
+```
+
+The coefficients match the published results: GPT Base improves assisted scores by 0.137 and harms unassisted scores by 0.054; GPT Tutor improves assisted scores by 0.361 with negligible effect on unassisted (-0.004).
+
+```{r real-coef-plot, message=FALSE, warning=FALSE, fig.width=7, fig.height=4}
+tbl_plot <- tbl_real %>% filter(Coefficient %in% c("GPT Base", "GPT Tutor"))
+p_coef_real <- ggplot(tbl_plot, aes(x = Estimate, y = Coefficient, color = Outcome)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_errorbar(aes(xmin = CI_lower, xmax = CI_upper), width = 0.2, linewidth = 0.8, orientation = "y") +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Assisted (Part 2)" = "#64B5F6", "Unassisted (Part 3)" = "#E57373")) +
+  labs(title = "Treatment Effects: Author-Shared Data", subtitle = "Clustered SE by Class; 95% CI", x = "Coefficient (vs. Control)", y = NULL) +
+  theme_minimal(base_size = 12) + theme(legend.position = "bottom")
+p_coef_real
+```
+
+## Covariate Balance
+We compare pre-treatment covariates across control, GPT Base, and GPT Tutor using one observation per student. The Love plot shows standardized mean differences (SMD); values within ±0.1 indicate good balance.
+
+```{r real-balance, message=FALSE, warning=FALSE, fig.width=7, fig.height=5}
+bal_real <- compute_balance(df_real)
+plot_love_plot(bal_real)
+```
+
+Balance is generally good: all SMDs are below 0.2, and most are below 0.1. Prior GPA shows the largest imbalance (SMD ≈ -0.05 to -0.11), but the regression controls for it.
+
+## Moderator Analysis
+We test heterogeneity by prior GPA (median split) and prior ChatGPT use (any vs. none). The key interaction is GPT Base × High GPA on assisted scores: the effect is smaller for high-GPA students (-0.077, p = 0.002), suggesting GPT Base helps lower-achieving students more on assisted tasks. The unassisted harm does not differ significantly by GPA or ChatGPT use.
+
+```{r real-moderator, message=FALSE, warning=FALSE}
+mods_real <- run_moderator_analysis(df_real)
+tbl_mod <- format_moderator_table(mods_real)
+kable(tbl_mod %>% select(moderator, outcome, term_label, estimate, std.error, p.value) %>%
+        mutate(estimate = round(estimate, 3), std.error = round(std.error, 3),
+               p.value = ifelse(p.value < 0.001, "<0.001", round(p.value, 3))),
+      col.names = c("Moderator", "Outcome", "Term", "Estimate", "SE", "p-value"))
 ```
 
 # Limitations of a Simulated Replication
