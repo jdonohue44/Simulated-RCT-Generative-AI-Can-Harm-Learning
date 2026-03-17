@@ -41,7 +41,7 @@ run_main_regression <- function(df) {
   list(assisted = reg2, unassisted = reg3, se_assisted = se2, se_unassisted = se3)
 }
 
-format_main_regression_table <- function(regs) {
+format_main_regression_table <- function(regs, df) {
   coef_names <- c("GPTBase", "GPTTutor", "gpa_prev")
   tbl <- data.frame(
     Outcome    = c(rep("Assisted (Part 2)", 3), rep("Unassisted (Part 3)", 3)),
@@ -57,9 +57,13 @@ format_main_regression_table <- function(regs) {
   )
   tbl$CI_lower <- tbl$Estimate - 1.96 * tbl$SE
   tbl$CI_upper <- tbl$Estimate + 1.96 * tbl$SE
-  tbl$p_value  <- c(
-    summary(regs$assisted)$coefficients[coef_names, "Pr(>|t|)"],
-    summary(regs$unassisted)$coefficients[coef_names, "Pr(>|t|)"]
+  # Use cluster-level degrees of freedom (n_clusters - 1) to match paper's inference
+  n_clusters <- length(unique(df$Class))
+  t_stats_a  <- coef(regs$assisted)[coef_names]  / regs$se_assisted[coef_names]
+  t_stats_u  <- coef(regs$unassisted)[coef_names] / regs$se_unassisted[coef_names]
+  tbl$p_value <- c(
+    2 * pt(-abs(t_stats_a), df = n_clusters - 1),
+    2 * pt(-abs(t_stats_u), df = n_clusters - 1)
   )
   tbl
 }
@@ -201,14 +205,15 @@ run_real_data_analysis <- function() {
 
   # 1. Main regression
   regs <- run_main_regression(df)
-  tbl_main <- format_main_regression_table(regs)
+  tbl_main <- format_main_regression_table(regs, df)
   write.csv(tbl_main, file.path(OUTPUT_TABLES, "main_regression_coefficients.csv"), row.names = FALSE)
 
   # 2. Balance
   bal <- compute_balance(df)
   write.csv(bal, file.path(OUTPUT_TABLES, "covariate_balance.csv"), row.names = FALSE)
-  p_love <- plot_love_plot(bal)
-  ggsave(file.path(OUTPUT_FIGURES, "love_plot_balance.png"), p_love, width = 7, height = 5, dpi = 150)
+  key_vars <- c("gpa_prev", "private_tutorship", "chatgpt_use")
+  p_love <- plot_love_plot(bal[bal$Variable %in% key_vars, ])
+  ggsave(file.path(OUTPUT_FIGURES, "love_plot_balance.png"), p_love, width = 7, height = 3.5, dpi = 150)
 
   # 3. Moderator
   mods <- run_moderator_analysis(df)

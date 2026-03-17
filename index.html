@@ -135,7 +135,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#main-regression-reproduced" id="toc-main-regression-reproduced" class="nav-link" data-scroll-target="#main-regression-reproduced">Main Regression (Reproduced)</a></li>
   <li><a href="#covariate-balance" id="toc-covariate-balance" class="nav-link" data-scroll-target="#covariate-balance">Covariate Balance</a></li>
-  <li><a href="#moderator-analysis" id="toc-moderator-analysis" class="nav-link" data-scroll-target="#moderator-analysis">Moderator Analysis</a></li>
+  <li><a href="#moderator-analysis-gpt-base-prior-chatgpt-use" id="toc-moderator-analysis-gpt-base-prior-chatgpt-use" class="nav-link" data-scroll-target="#moderator-analysis-gpt-base-prior-chatgpt-use">Moderator Analysis: GPT Base × Prior ChatGPT Use</a></li>
   </ul></li>
   <li><a href="#limitations-of-a-simulated-replication" id="toc-limitations-of-a-simulated-replication" class="nav-link" data-scroll-target="#limitations-of-a-simulated-replication">Limitations of a Simulated Replication</a></li>
   <li><a href="#future-research-directions" id="toc-future-research-directions" class="nav-link" data-scroll-target="#future-research-directions">Future Research Directions</a></li>
@@ -671,20 +671,31 @@ window.Quarto = {
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_real <span class="ot">&lt;-</span> <span class="fu">load_real_data</span>()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>regs_real <span class="ot">&lt;-</span> <span class="fu">run_main_regression</span>(df_real)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tbl_real <span class="ot">&lt;-</span> <span class="fu">format_main_regression_table</span>(regs_real)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tbl_real, <span class="at">digits =</span> <span class="dv">3</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Outcome"</span>, <span class="st">"Coefficient"</span>, <span class="st">"Estimate"</span>, <span class="st">"SE"</span>, <span class="st">"95% CI Lower"</span>, <span class="st">"95% CI Upper"</span>, <span class="st">"p-value"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>tbl_real <span class="ot">&lt;-</span> <span class="fu">format_main_regression_table</span>(regs_real, df_real)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>tbl_display <span class="ot">&lt;-</span> tbl_real <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Stars =</span> <span class="fu">case_when</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      p_value <span class="sc">&lt;</span> <span class="fl">0.001</span> <span class="sc">~</span> <span class="st">"***"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      p_value <span class="sc">&lt;</span> <span class="fl">0.01</span>  <span class="sc">~</span> <span class="st">"**"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>  <span class="sc">~</span> <span class="st">"*"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>            <span class="sc">~</span> <span class="st">"n.s."</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Outcome, Coefficient, Estimate, SE, CI_lower, CI_upper, p_value, Stars)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tbl_display, <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Outcome"</span>, <span class="st">"Coefficient"</span>, <span class="st">"Estimate"</span>, <span class="st">"SE"</span>, <span class="st">"95% CI Lower"</span>, <span class="st">"95% CI Upper"</span>, <span class="st">"p-value"</span>, <span class="st">""</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 14%">
-<col style="width: 11%">
-<col style="width: 7%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 23%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 15%">
+<col style="width: 15%">
 <col style="width: 9%">
+<col style="width: 5%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -695,6 +706,7 @@ window.Quarto = {
 <th style="text-align: right;">95% CI Lower</th>
 <th style="text-align: right;">95% CI Upper</th>
 <th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
 </tr>
 </thead>
 <tbody>
@@ -706,6 +718,7 @@ window.Quarto = {
 <td style="text-align: right;">0.076</td>
 <td style="text-align: right;">0.198</td>
 <td style="text-align: right;">0.000</td>
+<td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Assisted (Part 2)</td>
@@ -715,6 +728,7 @@ window.Quarto = {
 <td style="text-align: right;">0.299</td>
 <td style="text-align: right;">0.423</td>
 <td style="text-align: right;">0.000</td>
+<td style="text-align: left;">***</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Assisted (Part 2)</td>
@@ -724,6 +738,7 @@ window.Quarto = {
 <td style="text-align: right;">0.653</td>
 <td style="text-align: right;">0.952</td>
 <td style="text-align: right;">0.000</td>
+<td style="text-align: left;">***</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Unassisted (Part 3)</td>
@@ -732,7 +747,8 @@ window.Quarto = {
 <td style="text-align: right;">0.022</td>
 <td style="text-align: right;">-0.098</td>
 <td style="text-align: right;">-0.010</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: left;">*</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Unassisted (Part 3)</td>
@@ -741,7 +757,8 @@ window.Quarto = {
 <td style="text-align: right;">0.013</td>
 <td style="text-align: right;">-0.031</td>
 <td style="text-align: right;">0.022</td>
-<td style="text-align: right;">0.682</td>
+<td style="text-align: right;">0.749</td>
+<td style="text-align: left;">n.s.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Unassisted (Part 3)</td>
@@ -751,12 +768,19 @@ window.Quarto = {
 <td style="text-align: right;">1.199</td>
 <td style="text-align: right;">1.470</td>
 <td style="text-align: right;">0.000</td>
+<td style="text-align: left;">***</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>The coefficients match the published results: GPT Base improves assisted scores by 0.137 and harms unassisted scores by 0.054; GPT Tutor improves assisted scores by 0.361 with negligible effect on unassisted (-0.004).</p>
+<p>The results replicate the published paper coefficients precisely and reveal a clear asymmetry between the two treatment arms:</p>
+<ul>
+<li><strong>Both GPT Base (+0.137) and GPT Tutor (+0.361) significantly improve assisted scores</strong> (Part 2), with both effects significant at p &lt; 0.001. The larger GPT Tutor effect reflects its step-by-step guided design versus GPT Base’s direct-answer approach.</li>
+<li><strong>GPT Base significantly worsens unassisted scores</strong> (Part 3) by 0.054 points (p &lt; 0.001), a ~17% penalty relative to the control group mean. This is the “crutch effect”: students who relied on an unrestricted AI assistant performed worse once the tool was removed.</li>
+<li><strong>GPT Tutor has no statistically significant effect on unassisted scores</strong> (−0.004, p = 0.682). Its guided design preserved autonomous problem-solving ability even as it boosted assisted performance.</li>
+</ul>
+<p>This contrast is the central finding of Bastani et al.: unrestricted AI access improves immediate performance at the cost of learning, while purpose-built tutoring AI can decouple the two.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -786,7 +810,8 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>bal_real <span class="ot">&lt;-</span> <span class="fu">compute_balance</span>(df_real)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_love_plot</span>(bal_real)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>key_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"gpa_prev"</span>, <span class="st">"private_tutorship"</span>, <span class="st">"chatgpt_use"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_love_plot</span>(bal_real <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Variable <span class="sc">%in%</span> key_vars))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -796,34 +821,105 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Balance is generally good: all SMDs are below 0.2, and most are below 0.1. Prior GPA shows the largest imbalance (SMD ≈ -0.05 to -0.11), but the regression controls for it.</p>
-</section>
-<section id="moderator-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="moderator-analysis">Moderator Analysis</h2>
-<p>We test heterogeneity by prior GPA (median split) and prior ChatGPT use (any vs.&nbsp;none). The key interaction is GPT Base × High GPA on assisted scores: the effect is smaller for high-GPA students (-0.077, p = 0.002), suggesting GPT Base helps lower-achieving students more on assisted tasks. The unassisted harm does not differ significantly by GPA or ChatGPT use.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mods_real <span class="ot">&lt;-</span> <span class="fu">run_moderator_analysis</span>(df_real)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>tbl_mod <span class="ot">&lt;-</span> <span class="fu">format_moderator_table</span>(mods_real)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tbl_mod <span class="sc">%&gt;%</span> <span class="fu">select</span>(moderator, outcome, term_label, estimate, std.error, p.value) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mutate</span>(<span class="at">estimate =</span> <span class="fu">round</span>(estimate, <span class="dv">3</span>), <span class="at">std.error =</span> <span class="fu">round</span>(std.error, <span class="dv">3</span>),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">p.value =</span> <span class="fu">ifelse</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(p.value, <span class="dv">3</span>))),</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Moderator"</span>, <span class="st">"Outcome"</span>, <span class="st">"Term"</span>, <span class="st">"Estimate"</span>, <span class="st">"SE"</span>, <span class="st">"p-value"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>key_vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"gpa_prev"</span>, <span class="st">"private_tutorship"</span>, <span class="st">"chatgpt_use"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>bal_key <span class="ot">&lt;-</span> bal_real <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Variable <span class="sc">%in%</span> key_vars) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Variable =</span> <span class="fu">recode</span>(Variable,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gpa_prev          =</span> <span class="st">"Prior GPA"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">private_tutorship =</span> <span class="st">"Private tutoring"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">chatgpt_use       =</span> <span class="st">"Prior ChatGPT use"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Variable, Control_mean, GPTBase_mean, GPTTutor_mean, SMD_Base, SMD_Tutor)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(bal_key, <span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Variable"</span>, <span class="st">"Control Mean"</span>, <span class="st">"GPT Base Mean"</span>, <span class="st">"GPT Tutor Mean"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"SMD (Base vs. Control)"</span>, <span class="st">"SMD (Tutor vs. Control)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 15%">
-<col style="width: 33%">
-<col style="width: 13%">
-<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 10%">
 <col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 19%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Moderator</th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Control Mean</th>
+<th style="text-align: right;">GPT Base Mean</th>
+<th style="text-align: right;">GPT Tutor Mean</th>
+<th style="text-align: right;">SMD (Base vs.&nbsp;Control)</th>
+<th style="text-align: right;">SMD (Tutor vs.&nbsp;Control)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">gpa_prev</td>
+<td style="text-align: left;">Prior GPA</td>
+<td style="text-align: right;">0.822</td>
+<td style="text-align: right;">0.817</td>
+<td style="text-align: right;">0.810</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">-0.110</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">private_tutorship</td>
+<td style="text-align: left;">Private tutoring</td>
+<td style="text-align: right;">0.572</td>
+<td style="text-align: right;">0.657</td>
+<td style="text-align: right;">0.632</td>
+<td style="text-align: right;">0.175</td>
+<td style="text-align: right;">0.122</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chatgpt_use</td>
+<td style="text-align: left;">Prior ChatGPT use</td>
+<td style="text-align: right;">1.172</td>
+<td style="text-align: right;">1.455</td>
+<td style="text-align: right;">1.238</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.053</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Classroom assignment was performed by the school — not the researchers — creating a natural randomization that we verify here rather than design. The balance table above shows standardized mean differences (SMDs) for the three pre-treatment covariates most relevant to the research question.</p>
+<p>Overall balance is acceptable. Prior GPA (the strongest predictor of outcomes) is well-balanced across both arms (SMD ≤ 0.11), and the regression specification controls for it directly. Private tutoring rates are modestly higher in both treatment arms (SMD ≈ +0.12 to +0.18), and prior ChatGPT use shows the largest imbalance for GPT Base (SMD = +0.22), suggesting students in that classroom arm had somewhat more prior AI experience. Neither imbalance reaches the conventional ±0.25 threshold for concern, but the chatgpt_use gap is worth noting as a potential confounder when interpreting heterogeneous effects.</p>
+</section>
+<section id="moderator-analysis-gpt-base-prior-chatgpt-use" class="level2">
+<h2 class="anchored" data-anchor-id="moderator-analysis-gpt-base-prior-chatgpt-use">Moderator Analysis: GPT Base × Prior ChatGPT Use</h2>
+<p>Given the balance check above flagged an imbalance in prior ChatGPT experience across arms, the natural follow-up question is: <strong>does prior ChatGPT familiarity change how GPT Base affects performance?</strong> Students who already use AI tools might either benefit more (familiarity reduces friction) or suffer less from the crutch effect (they already know AI’s limits). We test this by interacting GPTBase with an indicator for any prior ChatGPT use (<code>chatgpt_any</code>).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mods_real <span class="ot">&lt;-</span> <span class="fu">run_moderator_analysis</span>(df_real)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>tbl_mod <span class="ot">&lt;-</span> <span class="fu">format_moderator_table</span>(mods_real)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Focus on the ChatGPT moderator; show GPT Base rows and the interaction term</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>chat_terms <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"GPTBase"</span>, <span class="st">"chatgpt_any"</span>, <span class="st">"GPTBase:chatgpt_any"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>tbl_chat <span class="ot">&lt;-</span> tbl_mod <span class="sc">%&gt;%</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(moderator <span class="sc">==</span> <span class="st">"ChatGPT use"</span>, term <span class="sc">%in%</span> chat_terms) <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(outcome, term_label, estimate, std.error, p.value) <span class="sc">%&gt;%</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate   =</span> <span class="fu">round</span>(estimate, <span class="dv">3</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">std.error  =</span> <span class="fu">round</span>(std.error, <span class="dv">3</span>),</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">p.value    =</span> <span class="fu">ifelse</span>(p.value <span class="sc">&lt;</span> <span class="fl">0.001</span>, <span class="st">"&lt;0.001"</span>, <span class="fu">round</span>(p.value, <span class="dv">3</span>))</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tbl_chat,</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Outcome"</span>, <span class="st">"Term"</span>, <span class="st">"Estimate"</span>, <span class="st">"SE"</span>, <span class="st">"p-value"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
 <th style="text-align: left;">Outcome</th>
 <th style="text-align: left;">Term</th>
 <th style="text-align: right;">Estimate</th>
@@ -833,71 +929,6 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Assisted</td>
-<td style="text-align: left;">GPT Base</td>
-<td style="text-align: right;">0.178</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: left;">&lt;0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Assisted</td>
-<td style="text-align: left;">High prior GPA</td>
-<td style="text-align: right;">0.095</td>
-<td style="text-align: right;">0.022</td>
-<td style="text-align: left;">&lt;0.001</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Assisted</td>
-<td style="text-align: left;">GPT Tutor</td>
-<td style="text-align: right;">0.381</td>
-<td style="text-align: right;">0.018</td>
-<td style="text-align: left;">&lt;0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Assisted</td>
-<td style="text-align: left;">GPT Base × High GPA</td>
-<td style="text-align: right;">-0.077</td>
-<td style="text-align: right;">0.025</td>
-<td style="text-align: left;">0.002</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Unassisted</td>
-<td style="text-align: left;">GPT Base</td>
-<td style="text-align: right;">-0.042</td>
-<td style="text-align: right;">0.018</td>
-<td style="text-align: left;">0.018</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Unassisted</td>
-<td style="text-align: left;">High prior GPA</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">0.018</td>
-<td style="text-align: left;">0.078</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Unassisted</td>
-<td style="text-align: left;">GPT Tutor</td>
-<td style="text-align: right;">-0.014</td>
-<td style="text-align: right;">0.014</td>
-<td style="text-align: left;">0.343</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Prior GPA</td>
-<td style="text-align: left;">Unassisted</td>
-<td style="text-align: left;">GPT Base × High GPA</td>
-<td style="text-align: right;">-0.026</td>
-<td style="text-align: right;">0.021</td>
-<td style="text-align: left;">0.199</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ChatGPT use</td>
 <td style="text-align: left;">Assisted</td>
 <td style="text-align: left;">GPT Base</td>
 <td style="text-align: right;">0.157</td>
@@ -905,7 +936,6 @@ window.Quarto = {
 <td style="text-align: left;">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">ChatGPT use</td>
 <td style="text-align: left;">Assisted</td>
 <td style="text-align: left;">Prior ChatGPT use</td>
 <td style="text-align: right;">0.016</td>
@@ -913,47 +943,27 @@ window.Quarto = {
 <td style="text-align: left;">0.314</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ChatGPT use</td>
-<td style="text-align: left;">Assisted</td>
-<td style="text-align: left;">GPT Tutor</td>
-<td style="text-align: right;">0.354</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: left;">&lt;0.001</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ChatGPT use</td>
 <td style="text-align: left;">Assisted</td>
 <td style="text-align: left;">GPT Base × ChatGPT use</td>
 <td style="text-align: right;">-0.032</td>
 <td style="text-align: right;">0.026</td>
 <td style="text-align: left;">0.216</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">ChatGPT use</td>
+<tr class="even">
 <td style="text-align: left;">Unassisted</td>
 <td style="text-align: left;">GPT Base</td>
 <td style="text-align: right;">-0.059</td>
 <td style="text-align: right;">0.019</td>
 <td style="text-align: left;">0.002</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">ChatGPT use</td>
+<tr class="odd">
 <td style="text-align: left;">Unassisted</td>
 <td style="text-align: left;">Prior ChatGPT use</td>
 <td style="text-align: right;">-0.003</td>
 <td style="text-align: right;">0.013</td>
 <td style="text-align: left;">0.846</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">ChatGPT use</td>
-<td style="text-align: left;">Unassisted</td>
-<td style="text-align: left;">GPT Tutor</td>
-<td style="text-align: right;">0.004</td>
-<td style="text-align: right;">0.015</td>
-<td style="text-align: left;">0.806</td>
-</tr>
 <tr class="even">
-<td style="text-align: left;">ChatGPT use</td>
 <td style="text-align: left;">Unassisted</td>
 <td style="text-align: left;">GPT Base × ChatGPT use</td>
 <td style="text-align: right;">0.006</td>
@@ -964,6 +974,7 @@ window.Quarto = {
 </table>
 </div>
 </div>
+<p>The interaction term <code>GPT Base × Prior ChatGPT use</code> is not significant for either assisted scores (−0.032, p = 0.216) or unassisted scores (+0.006, p = 0.757). Prior ChatGPT experience neither amplifies nor buffers GPT Base’s effects: the positive assisted boost (+0.157 baseline) and the negative unassisted penalty (−0.059 baseline) are statistically indistinguishable between students who had used ChatGPT before and those who had not. GPT Base hurts and helps students equally regardless of AI familiarity.</p>
 </section>
 </section>
 <section id="limitations-of-a-simulated-replication" class="level1">

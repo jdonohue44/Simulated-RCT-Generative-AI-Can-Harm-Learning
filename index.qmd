@@ -163,12 +163,28 @@ We replicate the paper's specification: Part 2 (assisted) and Part 3 (unassisted
 ```{r real-main-reg, message=FALSE, warning=FALSE}
 df_real <- load_real_data()
 regs_real <- run_main_regression(df_real)
-tbl_real <- format_main_regression_table(regs_real)
-kable(tbl_real, digits = 3,
-      col.names = c("Outcome", "Coefficient", "Estimate", "SE", "95% CI Lower", "95% CI Upper", "p-value"))
+tbl_real <- format_main_regression_table(regs_real, df_real)
+tbl_display <- tbl_real %>%
+  mutate(
+    Stars = case_when(
+      p_value < 0.001 ~ "***",
+      p_value < 0.01  ~ "**",
+      p_value < 0.05  ~ "*",
+      TRUE            ~ "n.s."
+    )
+  ) %>%
+  select(Outcome, Coefficient, Estimate, SE, CI_lower, CI_upper, p_value, Stars)
+kable(tbl_display, digits = 3,
+      col.names = c("Outcome", "Coefficient", "Estimate", "SE", "95% CI Lower", "95% CI Upper", "p-value", ""))
 ```
 
-The coefficients match the published results: GPT Base improves assisted scores by 0.137 and harms unassisted scores by 0.054; GPT Tutor improves assisted scores by 0.361 with negligible effect on unassisted (-0.004).
+The results replicate the published paper coefficients precisely and reveal a clear asymmetry between the two treatment arms:
+
+- **Both GPT Base (+0.137) and GPT Tutor (+0.361) significantly improve assisted scores** (Part 2), with both effects significant at p < 0.001. The larger GPT Tutor effect reflects its step-by-step guided design versus GPT Base's direct-answer approach.
+- **GPT Base significantly worsens unassisted scores** (Part 3) by 0.054 points (p < 0.001), a ~17% penalty relative to the control group mean. This is the "crutch effect": students who relied on an unrestricted AI assistant performed worse once the tool was removed.
+- **GPT Tutor has no statistically significant effect on unassisted scores** (−0.004, p = 0.682). Its guided design preserved autonomous problem-solving ability even as it boosted assisted performance.
+
+This contrast is the central finding of Bastani et al.: unrestricted AI access improves immediate performance at the cost of learning, while purpose-built tutoring AI can decouple the two.
 
 ```{r real-coef-plot, message=FALSE, warning=FALSE, fig.width=7, fig.height=4}
 tbl_plot <- tbl_real %>% filter(Coefficient %in% c("GPT Base", "GPT Tutor"))
@@ -185,24 +201,54 @@ p_coef_real
 ## Covariate Balance
 We compare pre-treatment covariates across control, GPT Base, and GPT Tutor using one observation per student. The Love plot shows standardized mean differences (SMD); values within ±0.1 indicate good balance.
 
-```{r real-balance, message=FALSE, warning=FALSE, fig.width=7, fig.height=5}
+```{r real-balance, message=FALSE, warning=FALSE, fig.width=7, fig.height=3.5}
 bal_real <- compute_balance(df_real)
-plot_love_plot(bal_real)
+key_vars <- c("gpa_prev", "private_tutorship", "chatgpt_use")
+plot_love_plot(bal_real %>% filter(Variable %in% key_vars))
 ```
 
-Balance is generally good: all SMDs are below 0.2, and most are below 0.1. Prior GPA shows the largest imbalance (SMD ≈ -0.05 to -0.11), but the regression controls for it.
+```{r real-balance-table, message=FALSE, warning=FALSE}
+key_vars <- c("gpa_prev", "private_tutorship", "chatgpt_use")
+bal_key <- bal_real %>%
+  filter(Variable %in% key_vars) %>%
+  mutate(Variable = recode(Variable,
+    gpa_prev          = "Prior GPA",
+    private_tutorship = "Private tutoring",
+    chatgpt_use       = "Prior ChatGPT use"
+  )) %>%
+  select(Variable, Control_mean, GPTBase_mean, GPTTutor_mean, SMD_Base, SMD_Tutor)
+kable(bal_key, digits = 3,
+      col.names = c("Variable", "Control Mean", "GPT Base Mean", "GPT Tutor Mean",
+                    "SMD (Base vs. Control)", "SMD (Tutor vs. Control)"))
+```
 
-## Moderator Analysis
-We test heterogeneity by prior GPA (median split) and prior ChatGPT use (any vs. none). The key interaction is GPT Base × High GPA on assisted scores: the effect is smaller for high-GPA students (-0.077, p = 0.002), suggesting GPT Base helps lower-achieving students more on assisted tasks. The unassisted harm does not differ significantly by GPA or ChatGPT use.
+Classroom assignment was performed by the school — not the researchers — creating a natural randomization that we verify here rather than design. The balance table above shows standardized mean differences (SMDs) for the three pre-treatment covariates most relevant to the research question.
+
+Overall balance is acceptable. Prior GPA (the strongest predictor of outcomes) is well-balanced across both arms (SMD ≤ 0.11), and the regression specification controls for it directly. Private tutoring rates are modestly higher in both treatment arms (SMD ≈ +0.12 to +0.18), and prior ChatGPT use shows the largest imbalance for GPT Base (SMD = +0.22), suggesting students in that classroom arm had somewhat more prior AI experience. Neither imbalance reaches the conventional ±0.25 threshold for concern, but the chatgpt_use gap is worth noting as a potential confounder when interpreting heterogeneous effects.
+
+## Moderator Analysis: GPT Base × Prior ChatGPT Use
+
+Given the balance check above flagged an imbalance in prior ChatGPT experience across arms, the natural follow-up question is: **does prior ChatGPT familiarity change how GPT Base affects performance?** Students who already use AI tools might either benefit more (familiarity reduces friction) or suffer less from the crutch effect (they already know AI's limits). We test this by interacting GPTBase with an indicator for any prior ChatGPT use (`chatgpt_any`).
 
 ```{r real-moderator, message=FALSE, warning=FALSE}
 mods_real <- run_moderator_analysis(df_real)
 tbl_mod <- format_moderator_table(mods_real)
-kable(tbl_mod %>% select(moderator, outcome, term_label, estimate, std.error, p.value) %>%
-        mutate(estimate = round(estimate, 3), std.error = round(std.error, 3),
-               p.value = ifelse(p.value < 0.001, "<0.001", round(p.value, 3))),
-      col.names = c("Moderator", "Outcome", "Term", "Estimate", "SE", "p-value"))
+
+# Focus on the ChatGPT moderator; show GPT Base rows and the interaction term
+chat_terms <- c("GPTBase", "chatgpt_any", "GPTBase:chatgpt_any")
+tbl_chat <- tbl_mod %>%
+  filter(moderator == "ChatGPT use", term %in% chat_terms) %>%
+  select(outcome, term_label, estimate, std.error, p.value) %>%
+  mutate(
+    estimate   = round(estimate, 3),
+    std.error  = round(std.error, 3),
+    p.value    = ifelse(p.value < 0.001, "<0.001", round(p.value, 3))
+  )
+kable(tbl_chat,
+      col.names = c("Outcome", "Term", "Estimate", "SE", "p-value"))
 ```
+
+The interaction term `GPT Base × Prior ChatGPT use` is not significant for either assisted scores (−0.032, p = 0.216) or unassisted scores (+0.006, p = 0.757). Prior ChatGPT experience neither amplifies nor buffers GPT Base's effects: the positive assisted boost (+0.157 baseline) and the negative unassisted penalty (−0.059 baseline) are statistically indistinguishable between students who had used ChatGPT before and those who had not. GPT Base hurts and helps students equally regardless of AI familiarity.
 
 # Limitations of a Simulated Replication
 Reproducing an RCT with simulated data is a useful exercise for validating statistical methods and building intuition about experimental design. However, it is important to be explicit about what this approach can and cannot establish.
