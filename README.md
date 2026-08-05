@@ -2,6 +2,15 @@
 
 A simulated randomized control trial replicating the Wharton 2024 study by Bastani et al.: "Generative AI without guardrails can harm learning: Evidence from high school mathematics"
 
+```
+@article{bastani2025generative,
+  title={Generative AI without guardrails can harm learning: Evidence from high school mathematics},
+  author={Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakc{\i}, Ozge and Mariman, Rei},
+  journal={PNAS},
+  year={2025}
+}
+```
+
 ## Project Structure
 
 ```
@@ -44,17 +53,6 @@ quarto render index.qmd
 ```
 
 This generates `index.html` and/or `index.pdf` plus `data/simulated_data.csv`.
-
-## Citation
-
-```
-@article{bastani2025generative,
-  title={Generative AI without guardrails can harm learning: Evidence from high school mathematics},
-  author={Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakc{\i}, Ozge and Mariman, Rei},
-  journal={PNAS},
-  year={2025}
-}
-```
 
 --- 
 
@@ -226,15 +224,4 @@ This repo shares code and data that are used in the paper "Generative AI Without
 | `education_parent`               | Parent education level                                  |
 | `n_household_children`           | Number of children in household                         |
 | `Honors`                         | Honors student indicator                                |
-
-## Citation
-
-```
-@article{bastani2025generative,
-  title={Generative AI without guardrails can harm learning: Evidence from high school mathematics},
-  author={Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakc{\i}, Ozge and Mariman, Rei},
-  journal={PNAS},
-  year={2025}
-}
-```
 
