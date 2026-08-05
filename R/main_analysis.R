@@ -1,10 +1,12 @@
 #
 # =============================================================================
-# Adapted from: Bastani et al. (2025) replication code
+# Author-shared main regression script from Bastani et al. (2025), PNAS
 # Source: https://github.com/obastani/GenAICanHarmLearning
-# Original licence: see upstream repository
-# Modifications: none / [describe any changes if applicable]
-# ===========================================================================
+#         (main_regressions/main_analysis.R)
+# Modifications: none — the code below is unchanged from upstream; this
+#   attribution header replaces the original title comment. Vendored for
+#   reference alongside R/real_data_analysis.R; not sourced by index.qmd.
+# =============================================================================
 #
 
 rm(list=ls())

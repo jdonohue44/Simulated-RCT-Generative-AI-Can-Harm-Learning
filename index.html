@@ -7,10 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jared Donohue (jjd2203@columbia.edu)">
-<meta name="author" content="Audrey Christensen (ac5470@columbia.edu)">
 <meta name="dcterms.date" content="2024-12-15">
 
-<title>Generative AI Can Harm Learning: A Simulated Randomized Control Trial</title>
+<title>Generative AI Can Harm Learning: A Simulated Randomized Controlled Trial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -150,7 +149,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Generative AI Can Harm Learning: A Simulated Randomized Control Trial</h1>
+<h1 class="title">Generative AI Can Harm Learning: A Simulated Randomized Controlled Trial</h1>
 <p class="subtitle lead">Updated in March, 2026 to incorporate author-shared data</p>
 </div>
 
@@ -159,10 +158,9 @@ window.Quarto = {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
              <p>Jared Donohue (jjd2203@columbia.edu) </p>
-             <p>Audrey Christensen (ac5470@columbia.edu) </p>
           </div>
   </div>
     
@@ -183,9 +181,9 @@ window.Quarto = {
 
 <section id="executive-summary" class="level1">
 <h1>Executive Summary</h1>
-<p>In this report, we simulate a randomized control trial (RCT) conducted by the Wharton School in 2024, titled: “Generative AI Can Harm Learning”. Our replicated experiment confirmed that having access to Chat GPT-4 improves student performance on math tests, but actually reduces performance when access to Chat GPT is taken away, suggesting it hinders the long-term learning of new concepts. Conversely, using a customized Chat GPT-4 “Tutor” model boosted performance on assisted tasks without significantly affecting unassisted ones, indicating that purpose-built AI models may be a valuable tool for supporting long-term learning.</p>
+<p>In this report, we simulate the randomized controlled trial (RCT) reported in Bastani et al.&nbsp;(2025), “Generative AI without guardrails can harm learning: Evidence from high school mathematics,” published in the Proceedings of the National Academy of Sciences (PNAS). Our replicated experiment confirmed that having access to Chat GPT-4 improves student performance on math tests, but actually reduces performance when access to Chat GPT is taken away, suggesting it hinders the long-term learning of new concepts. Conversely, using a customized Chat GPT-4 “Tutor” model boosted performance on assisted tasks without significantly affecting unassisted ones, indicating that purpose-built AI models may be a valuable tool for supporting long-term learning.</p>
 <blockquote class="blockquote">
-<p>Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakcı, Özge and Mariman, Rei, Generative AI Can Harm Learning (July 15, 2024). The Wharton School Research Paper, Available at SSRN: https://ssrn.com/abstract=4895486 or http://dx.doi.org/10.2139/ssrn.4895486</p>
+<p>Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., &amp; Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. Proceedings of the National Academy of Sciences, 122(26), e2422633122. https://doi.org/10.1073/pnas.2422633122</p>
 </blockquote>
 </section>
 <section id="background-and-additional-context" class="level1">
@@ -201,7 +199,7 @@ window.Quarto = {
 <p>The study spanned four 90-minute sessions, each with a sequence of 3 activities. First, teachers reviewed the topic with students. Second, students participated in a randomized, assisted AI session, where they either used GPT Base, GPT Tutor, or relied on textbooks and notes (control group). This session was scored to assess performance. Finally, students completed an unassisted evaluation, also scored, to measure how well they had learned the new information.</p>
 <p>Data was collected in three main ways. At the start of the study, students completed a survey capturing their demographics and educational background. During the sessions, student performance was recorded for both the assisted practice and the unassisted evaluations. Additionally, students who interacted with AI chatbots had their chat data logged, and surveys captured their experiences using the tools.</p>
 <p>To evaluate the impact of the interventions, the authors used a regression model to analyze student outcomes. The dependent variable, Outcome(j) , represented the normalized grade of a student in either the assisted (j = 0) or unassisted (j = 1) sessions, scaled from 0 to 1. The researchers examined heterogeneous treatment effects, investigating how the treatment effects vary across different subgroups of the study population. Specifically, they analyzed whether the effects of AI assistance differed based on students’ prior academic performance, access to private tutoring, and hours spent studying. While this analysis can provide valuable insights into how different types of students may respond to AI tutoring tools, our replication using simulated data does not include this component. Our focus remains on reproducing the main effects observed in the original experiment.</p>
-<p>The independent variables GPTBasec and GPTTutorc indicate the treatment group for each class. The model controlled for prior student performance using normalized GPA from the previous year, PrevGPAi, and included fixed effects for session, grade, year, and time-related variations (Ts, Dg, Ay, Gt). In our replication, we removed the fixed effects and GPA from the regression model.</p>
+<p>The independent variables GPTBasec and GPTTutorc indicate the treatment group for each class. The model controlled for prior student performance using normalized GPA from the previous year, PrevGPAi, and included fixed effects for session, grade, year, and time-related variations (Ts, Dg, Ay, Gt). In our simulation, we removed prior GPA and the fixed effects from both the data-generating process and the regression model; because treatment is randomized, these controls affect precision rather than identification. The full specification, including prior GPA and the fixed effects, is estimated on the author-shared data in the validation section below.</p>
 <p>This experiment was pre-registered on https://aspredicted.org/4DL_Q3J. Pre-registering experiments enhances the transparency and credibility of scientific research. By declaring hypotheses, methods, and analyses in advance, pre-registration helps reduce publication bias and prevents p-hacking, improving the scientific rigor of experiments.</p>
 <p>Handling non-compliance was another interesting aspect of this experiment. In five instances, a treatment classroom could not execute the treatment due to unanticipated external circumstances. In the paper, researchers checked the validity of the results accounting for non-compliance by performing an alternative regression specification where non-compliers are excluded. The results for the alternative regression were nearly identical to the main analysis, confirming that non-compliance did not significantly alter the outcome of the experiment. Due to the negligible effect on overall results, we did not include this alternative regression in our analysis.</p>
 </section>
@@ -235,8 +233,8 @@ window.Quarto = {
 <h1>Dataset Creation</h1>
 <p>To construct our dataset, we reverse-engineered the score and classroom data. We modeled 50 classrooms with 20 students each, creating one row per student. Normalized previous GPA values were generated using a normal distribution with a mean of 0.82 and a standard deviation of 0.11, bounded between 0 and 1.</p>
 <p>Classrooms were randomly assigned to GPT Base, GPT Tutor, or control groups. Assignment probabilities were based on the proportion of students in each group as reported in the original study.</p>
-<p>Fixed effects were assigned randomly as integers, including session numbers (1–4), grade levels (9–12), teachers (1–20), and graders (1–10). Fixed effects were excluded from score generation, as their variance was already accounted for in the original study’s regression model. This approach allowed us to focus solely on replicating the treatment effects described in the paper.</p>
-<p>Finally, student scores were simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper’s linear regression model with a small amount of noise to calculate scores for each student.</p>
+<p>We did not simulate the session, grade, teacher, and grader identifiers that the original study used as fixed effects, and neither those fixed effects nor prior GPA enter score generation. Because treatment is randomized at the classroom level, these variables affect precision rather than identification, and omitting them lets the simulation focus on the treatment effects reported in the paper. Prior GPA is still generated as a student-level covariate so the simulated dataset mirrors the structure of the real one.</p>
+<p>Finally, student scores were simulated, as described in the Simulation of Student Scores section below.</p>
 </section>
 <section id="power-analysis" class="level1">
 <h1>Power Analysis</h1>
@@ -244,7 +242,7 @@ window.Quarto = {
 <p>The minimum detectable effect (MDE) for a cluster-randomized trial comparing treatment arm <span class="math inline">\(j\)</span> to control is:</p>
 <p><span class="math display">\[\text{MDE} = \left(t_{\alpha/2,\,df} + t_{\beta,\,df}\right) \times \sigma \times \sqrt{1 + (m-1)\rho} \times \sqrt{\frac{1}{n_j} + \frac{1}{n_c}}\]</span></p>
 <p>where <span class="math inline">\(\sigma\)</span> is the outcome standard deviation, <span class="math inline">\(\rho\)</span> is the ICC, <span class="math inline">\(m\)</span> is students per classroom, <span class="math inline">\(n_j\)</span> and <span class="math inline">\(n_c\)</span> are total students in each arm, and <span class="math inline">\(df = J_j + J_c - 2\)</span> uses the number of clusters rather than individual students.</p>
-<p>The original paper does not report the ICC. We therefore compute the MDE across a range of plausible ICC values (1%–25%) and compare each to the observed treatment effects. The plot below shows when each effect crosses the detectability threshold. Dashed lines represent the observed effect sizes from Bastani et al.&nbsp;(2024). An effect is adequately powered when its dashed line sits above the corresponding MDE curve.</p>
+<p>The original paper does not report the ICC. We therefore compute the MDE across a range of plausible ICC values (1%–25%) and compare each to the observed treatment effects. The plot below shows when each effect crosses the detectability threshold. Dashed lines represent the observed effect sizes from Bastani et al.&nbsp;(2025). An effect is adequately powered when its dashed line sits above the corresponding MDE curve.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -341,7 +339,8 @@ window.Quarto = {
 </section>
 <section id="simulation-of-student-scores" class="level1">
 <h1>Simulation of Student Scores</h1>
-<p>Student scores are simulated. Since standard errors were calculated at the classroom level, we generated coefficients for each classroom by using the coefficients and standard errors provided in the paper. Coefficients were drawn from a normal distribution using the reported means and standard deviations, then applied to the paper’s linear regression model with a small amount of noise to calculate scores for each student.</p>
+<p>Because the paper reports classroom-clustered standard errors, we simulate at the level the inference was performed: each classroom receives its own treatment effect coefficients, drawn from normal distributions centered on the paper’s reported point estimates with standard deviations equal to the reported standard errors. A student’s score is then the control-group mean, plus the classroom’s treatment coefficient for its assigned arm, plus a small amount of individual-level noise (SD = 0.05).</p>
+<p>One consequence of this design is worth stating explicitly: the simulation targets the sampling distribution of the treatment-effect estimator, not the raw outcome distribution. Simulated scores vary far less than real scores (the real control-group SD is roughly 0.28, versus 0.05 individual noise here) because between-student variance unrelated to treatment is not modeled, and the conventional OLS standard errors in the simulated regressions are correspondingly smaller than the paper’s clustered standard errors. This is a deliberate choice — it anchors the simulated treatment estimates to the paper’s reported values — but it means the simulated data should not be used to study outcome dispersion.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -351,9 +350,9 @@ window.Quarto = {
 </section>
 <section id="results" class="level1">
 <h1>Results</h1>
-<p>Results show that use of the chatbots increased performance on the assisted assessment, with GPT Base improving scores by .137 (out of 1) and GPT Tutor improving scores by .361 (out of 1) relative to the control group. On the unassisted assessment, GPT Base decreased performance by .054 (out of one) relative to the control group (17% decrease). GPT Tutor’s impact on the unassisted portion was statistically significant at -.004. Our replication yielded results that closely aligned with the original study, with Assisted assessments: GPT Base: Coefficient = 0.135 (SE = 0.021) and GPT Tutor: Coefficient = 0.358 (SE = 0.023). And unassisted assessment of GPT Base: Coefficient = -0.052 (SE = 0.019), and GPT Tutor: Coefficient = -0.005 (SE = 0.020).</p>
-<p>These results are very close to the original study’s findings, where GPT Base improved assisted scores by 0.137 and decreased unassisted scores by 0.054, and GPT Tutor improved assisted scores by 0.361 and had a minimal effect (-0.004) on unassisted scores.</p>
-<p>The p-values of our two-sample t-tests generally align with the original study’s findings, where GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p&lt;0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p=0.0589). All differences between assisted and unassisted scores were statistically significant (p&lt;0.001).</p>
+<p>In the original study, use of the chatbots increased performance on the assisted assessment, with GPT Base improving scores by .137 (out of 1) and GPT Tutor improving scores by .361 (out of 1) relative to the control group. On the unassisted assessment, GPT Base decreased performance by .054 (out of one) relative to the control group (a 17% decrease), while GPT Tutor’s impact on the unassisted portion was small (-.004) and not statistically significant.</p>
+<p>Our simulation yielded closely aligned results. On the assisted assessment, GPT Base improved scores by 0.130 (SE = 0.005) and GPT Tutor by 0.365 (SE = 0.005). On the unassisted assessment, GPT Base decreased scores by 0.057 (SE = 0.004), while GPT Tutor’s coefficient of -0.005 (SE = 0.004) was not statistically significant (p = 0.275).</p>
+<p>The p-values of our two-sample t-tests align with the original study’s findings: GPT Base improved assisted scores and decreased unassisted scores with statistical significance (p &lt; 0.001), and GPT Tutor did not have a statistically significant impact on unassisted scores (p = 0.256). All differences between assisted and unassisted scores were statistically significant (p &lt; 0.001).</p>
 <p>Our replication successfully reproduced the key findings: GPT Base significantly improved performance on assisted tasks but hindered performance on unassisted tasks, while GPT Tutor substantially improved assisted performance without significantly impacting unassisted performance.</p>
 <section id="the-crutch-effect" class="level2">
 <h2 class="anchored" data-anchor-id="the-crutch-effect">The Crutch Effect</h2>
@@ -470,39 +469,30 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.291</td>
-<td style="text-align: right;">0.016</td>
-<td style="text-align: right;">18.360</td>
+<td style="text-align: right;">0.288</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">84.861</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">0.259</td>
-<td style="text-align: right;">0.322</td>
+<td style="text-align: right;">0.281</td>
+<td style="text-align: right;">0.294</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GPT_base</td>
-<td style="text-align: right;">0.131</td>
+<td style="text-align: right;">0.130</td>
 <td style="text-align: right;">0.005</td>
-<td style="text-align: right;">28.928</td>
+<td style="text-align: right;">28.685</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">0.122</td>
-<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">0.121</td>
+<td style="text-align: right;">0.139</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">GPT_tutor</td>
-<td style="text-align: right;">0.367</td>
+<td style="text-align: right;">0.365</td>
 <td style="text-align: right;">0.005</td>
-<td style="text-align: right;">77.724</td>
+<td style="text-align: right;">77.486</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">0.358</td>
-<td style="text-align: right;">0.376</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">prev_gpa</td>
-<td style="text-align: right;">-0.008</td>
-<td style="text-align: right;">0.019</td>
-<td style="text-align: right;">-0.406</td>
-<td style="text-align: right;">0.685</td>
-<td style="text-align: right;">-0.045</td>
-<td style="text-align: right;">0.030</td>
+<td style="text-align: right;">0.356</td>
+<td style="text-align: right;">0.375</td>
 </tr>
 </tbody>
 </table>
@@ -537,39 +527,30 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: right;">0.341</td>
-<td style="text-align: right;">0.014</td>
-<td style="text-align: right;">24.147</td>
+<td style="text-align: right;">0.319</td>
+<td style="text-align: right;">0.003</td>
+<td style="text-align: right;">104.129</td>
 <td style="text-align: right;">&lt; 0.001</td>
 <td style="text-align: right;">0.313</td>
-<td style="text-align: right;">0.369</td>
+<td style="text-align: right;">0.325</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GPT_base</td>
-<td style="text-align: right;">-0.054</td>
+<td style="text-align: right;">-0.057</td>
 <td style="text-align: right;">0.004</td>
-<td style="text-align: right;">-13.267</td>
+<td style="text-align: right;">-14.023</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">-0.062</td>
-<td style="text-align: right;">-0.046</td>
+<td style="text-align: right;">-0.065</td>
+<td style="text-align: right;">-0.049</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">GPT_tutor</td>
-<td style="text-align: right;">-0.007</td>
+<td style="text-align: right;">-0.005</td>
 <td style="text-align: right;">0.004</td>
-<td style="text-align: right;">-1.570</td>
-<td style="text-align: right;">0.117</td>
-<td style="text-align: right;">-0.015</td>
-<td style="text-align: right;">0.002</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">prev_gpa</td>
-<td style="text-align: right;">-0.026</td>
-<td style="text-align: right;">0.017</td>
-<td style="text-align: right;">-1.503</td>
-<td style="text-align: right;">0.133</td>
-<td style="text-align: right;">-0.059</td>
-<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-1.091</td>
+<td style="text-align: right;">0.275</td>
+<td style="text-align: right;">-0.013</td>
+<td style="text-align: right;">0.004</td>
 </tr>
 </tbody>
 </table>
@@ -606,52 +587,52 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Control vs.&nbsp;GPT Base (Assisted)</td>
-<td style="text-align: right;">-29.732</td>
-<td style="text-align: right;">673.68</td>
+<td style="text-align: right;">-29.264</td>
+<td style="text-align: right;">674.80</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">-0.131</td>
+<td style="text-align: right;">-0.130</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Control vs.&nbsp;GPT Tutor (Assisted)</td>
-<td style="text-align: right;">-86.253</td>
-<td style="text-align: right;">611.56</td>
+<td style="text-align: right;">-85.912</td>
+<td style="text-align: right;">614.06</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">-0.367</td>
+<td style="text-align: right;">-0.365</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Control vs.&nbsp;GPT Base (Unassisted)</td>
-<td style="text-align: right;">13.366</td>
-<td style="text-align: right;">677.56</td>
+<td style="text-align: right;">13.898</td>
+<td style="text-align: right;">664.71</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.057</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Control vs.&nbsp;GPT Tutor (Unassisted)</td>
-<td style="text-align: right;">1.635</td>
-<td style="text-align: right;">617.68</td>
-<td style="text-align: right;">0.103</td>
-<td style="text-align: right;">0.006</td>
+<td style="text-align: right;">1.137</td>
+<td style="text-align: right;">614.54</td>
+<td style="text-align: right;">0.256</td>
+<td style="text-align: right;">0.005</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Control: Unassisted vs.&nbsp;Assisted</td>
-<td style="text-align: right;">9.246</td>
-<td style="text-align: right;">597.16</td>
+<td style="text-align: right;">7.634</td>
+<td style="text-align: right;">596.96</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">0.036</td>
+<td style="text-align: right;">0.031</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GPT Base: Unassisted vs.&nbsp;Assisted</td>
-<td style="text-align: right;">-32.941</td>
-<td style="text-align: right;">742.66</td>
+<td style="text-align: right;">-34.879</td>
+<td style="text-align: right;">737.28</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">-0.149</td>
+<td style="text-align: right;">-0.156</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">GPT Tutor: Unassisted vs.&nbsp;Assisted</td>
-<td style="text-align: right;">-78.711</td>
-<td style="text-align: right;">629.29</td>
+<td style="text-align: right;">-79.691</td>
+<td style="text-align: right;">629.91</td>
 <td style="text-align: right;">&lt; 0.001</td>
-<td style="text-align: right;">-0.338</td>
+<td style="text-align: right;">-0.339</td>
 </tr>
 </tbody>
 </table>
@@ -662,10 +643,10 @@ window.Quarto = {
 </section>
 <section id="validation-with-author-shared-data" class="level1">
 <h1>Validation with Author-Shared Data</h1>
-<p>The authors of Bastani et al.&nbsp;(2024) released <code>final_data.csv</code> for reproducibility. We re-ran the paper’s main regression, checked covariate balance, and conducted a simple moderator analysis. This section validates that our simulation aligns with the real-data results and provides evidence on balance and heterogeneity.</p>
+<p>The authors of Bastani et al.&nbsp;(2025) released <code>final_data.csv</code> for reproducibility. We re-ran the paper’s main regression, checked covariate balance, and conducted a simple moderator analysis. This section validates that our simulation aligns with the real-data results and provides evidence on balance and heterogeneity.</p>
 <section id="main-regression-reproduced" class="level2">
 <h2 class="anchored" data-anchor-id="main-regression-reproduced">Main Regression (Reproduced)</h2>
-<p>We replicate the paper’s specification: Part 2 (assisted) and Part 3 (unassisted) scores regressed on GPT Base, GPT Tutor, prior GPA, and fixed effects for teacher, session, grader, and year. Standard errors are clustered by class.</p>
+<p>We replicate the paper’s specification: Part 2 (assisted) and Part 3 (unassisted) scores regressed on GPT Base, GPT Tutor, prior GPA, and fixed effects for teacher, session, grader, and year. Standard errors are clustered by class, and p-values use cluster-level degrees of freedom (number of classes minus one), a conservative choice for cluster-randomized inference.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -777,8 +758,8 @@ window.Quarto = {
 <p>The results replicate the published paper coefficients precisely and reveal a clear asymmetry between the two treatment arms:</p>
 <ul>
 <li><strong>Both GPT Base (+0.137) and GPT Tutor (+0.361) significantly improve assisted scores</strong> (Part 2), with both effects significant at p &lt; 0.001. The larger GPT Tutor effect reflects its step-by-step guided design versus GPT Base’s direct-answer approach.</li>
-<li><strong>GPT Base significantly worsens unassisted scores</strong> (Part 3) by 0.054 points (p &lt; 0.001), a ~17% penalty relative to the control group mean. This is the “crutch effect”: students who relied on an unrestricted AI assistant performed worse once the tool was removed.</li>
-<li><strong>GPT Tutor has no statistically significant effect on unassisted scores</strong> (−0.004, p = 0.682). Its guided design preserved autonomous problem-solving ability even as it boosted assisted performance.</li>
+<li><strong>GPT Base significantly worsens unassisted scores</strong> (Part 3) by 0.054 points (p = 0.020), a ~17% penalty relative to the control group mean. This is the “crutch effect”: students who relied on an unrestricted AI assistant performed worse once the tool was removed.</li>
+<li><strong>GPT Tutor has no statistically significant effect on unassisted scores</strong> (−0.004, p = 0.749). Its guided design preserved autonomous problem-solving ability even as it boosted assisted performance.</li>
 </ul>
 <p>This contrast is the central finding of Bastani et al.: unrestricted AI access improves immediate performance at the cost of learning, while purpose-built tutoring AI can decouple the two.</p>
 <div class="cell">
@@ -1015,7 +996,7 @@ window.Quarto = {
 </section>
 <section id="citation" class="level1">
 <h1>Citation</h1>
-<p>Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakcı, Özge and Mariman, Rei, Generative AI Can Harm Learning (July 15, 2024). The Wharton School Research Paper, Available at SSRN: https://ssrn.com/abstract=4895486 or http://dx.doi.org/10.2139/ssrn.4895486</p>
+<p>Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., &amp; Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. Proceedings of the National Academy of Sciences, 122(26), e2422633122. https://doi.org/10.1073/pnas.2422633122</p>
 </section>
 
 </main>

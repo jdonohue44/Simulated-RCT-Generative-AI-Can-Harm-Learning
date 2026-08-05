@@ -4,10 +4,14 @@ library(broom)
 library(knitr)
 library(dplyr)
 
+# Matches the simulation DGP: treatment effects only, no prior GPA or fixed
+# effects (see "Dataset Creation" in index.qmd). The full specification with
+# prior GPA and fixed effects is estimated on the real data in
+# real_data_analysis.R.
 run_regressions <- function(df) {
   list(
-    assisted   = lm(scores_assisted   ~ GPT_base + GPT_tutor + prev_gpa, data = df),
-    unassisted = lm(scores_unassisted ~ GPT_base + GPT_tutor + prev_gpa, data = df)
+    assisted   = lm(scores_assisted   ~ GPT_base + GPT_tutor, data = df),
+    unassisted = lm(scores_unassisted ~ GPT_base + GPT_tutor, data = df)
   )
 }
 

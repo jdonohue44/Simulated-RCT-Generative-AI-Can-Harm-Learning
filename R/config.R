@@ -1,5 +1,5 @@
-# config.R — Simulation parameters from the original Wharton study
-# Bastani et al. (2024), "Generative AI Can Harm Learning"
+# config.R — Simulation parameters from the original study
+# Bastani et al. (2025), "Generative AI without guardrails can harm learning", PNAS
 
 SEED <- 4
 
@@ -28,8 +28,6 @@ BETA_BASE_ASSISTED    <- list(mean = 0.137, sd = 0.031)
 BETA_BASE_UNASSISTED  <- list(mean = -0.054, sd = 0.022)
 BETA_TUTOR_ASSISTED   <- list(mean = 0.361, sd = 0.032)
 BETA_TUTOR_UNASSISTED <- list(mean = -0.004, sd = 0.013)
-BETA_GPA_ASSISTED     <- list(mean = 0.802, sd = 0.076)
-BETA_GPA_UNASSISTED   <- list(mean = 1.334, sd = 0.069)
 
 # --- Noise added to individual scores ---
 SCORE_NOISE_SD <- 0.05

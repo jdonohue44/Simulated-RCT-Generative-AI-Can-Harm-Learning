@@ -1,10 +1,13 @@
 #
 # =============================================================================
-# Adapted from: Bastani et al. (2025) replication code
+# Author-shared problem-level regression script from Bastani et al. (2025), PNAS
 # Source: https://github.com/obastani/GenAICanHarmLearning
-# Original licence: see upstream repository
-# Modifications: none / [describe any changes if applicable]
-# ===========================================================================
+#         (main_regressions/problem_level_analysis.R)
+# Modifications: none — the code below is unchanged from upstream; this
+#   attribution header replaces the original title comment. Vendored for
+#   reference; requires problem_part2.csv / problem_part3.csv from the
+#   upstream repo, which are not vendored here. Not sourced by index.qmd.
+# =============================================================================
 #
 
 rm(list=ls())

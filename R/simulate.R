@@ -31,13 +31,11 @@ simulate_students <- function(seed = SEED) {
 simulate_classroom_betas <- function(class_ids) {
   n <- length(class_ids)
   data.frame(
-    class_id                = class_ids,
-    beta_base_assisted      = rnorm(n, BETA_BASE_ASSISTED$mean,    BETA_BASE_ASSISTED$sd),
-    beta_tutor_assisted     = rnorm(n, BETA_TUTOR_ASSISTED$mean,   BETA_TUTOR_ASSISTED$sd),
-    beta_prevGPA_assisted   = rnorm(n, BETA_GPA_ASSISTED$mean,     BETA_GPA_ASSISTED$sd),
-    beta_base_unassisted    = rnorm(n, BETA_BASE_UNASSISTED$mean,  BETA_BASE_UNASSISTED$sd),
-    beta_tutor_unassisted   = rnorm(n, BETA_TUTOR_UNASSISTED$mean, BETA_TUTOR_UNASSISTED$sd),
-    beta_prevGPA_unassisted = rnorm(n, BETA_GPA_UNASSISTED$mean,   BETA_GPA_UNASSISTED$sd)
+    class_id              = class_ids,
+    beta_base_assisted    = rnorm(n, BETA_BASE_ASSISTED$mean,    BETA_BASE_ASSISTED$sd),
+    beta_tutor_assisted   = rnorm(n, BETA_TUTOR_ASSISTED$mean,   BETA_TUTOR_ASSISTED$sd),
+    beta_base_unassisted  = rnorm(n, BETA_BASE_UNASSISTED$mean,  BETA_BASE_UNASSISTED$sd),
+    beta_tutor_unassisted = rnorm(n, BETA_TUTOR_UNASSISTED$mean, BETA_TUTOR_UNASSISTED$sd)
   )
 }
 

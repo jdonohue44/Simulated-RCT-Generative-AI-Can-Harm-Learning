@@ -84,7 +84,7 @@ plot_power_curves <- function(pa) {
     scale_x_continuous(labels = function(x) paste0(x * 100, "%"),
                        limits = c(0, 0.25)) +
     labs(title    = "Minimum Detectable Effect vs. Intraclass Correlation",
-         subtitle = "Dashed lines = observed effects from Bastani et al. (2024)",
+         subtitle = "Dashed lines = observed effects from Bastani et al. (2025)",
          x = "ICC (Intraclass Correlation)",
          y = "Minimum Detectable Effect",
          color = "Comparison") +

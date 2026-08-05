@@ -13,9 +13,13 @@ Second, it reproduces the paper's main regression, balance, and moderator result
 ```bibtex
 @article{bastani2025generative,
   title={Generative AI without guardrails can harm learning: Evidence from high school mathematics},
-  author={Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakc{\i}, Ozge and Mariman, Rei},
-  journal={PNAS},
-  year={2025}
+  author={Bastani, Hamsa and Bastani, Osbert and Sungu, Alp and Ge, Haosen and Kabakc{\i}, {\"O}zge and Mariman, Rei},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={122},
+  number={26},
+  pages={e2422633122},
+  year={2025},
+  doi={10.1073/pnas.2422633122}
 }
 ```
 
@@ -33,8 +37,8 @@ Second, it reproduces the paper's main regression, balance, and moderator result
    ├── power_analysis.R           # MDE calculations
    ├── causal_dag.R               # Causal DAG visualization
    ├── real_data_analysis.R       # Reproduces main regression, balance, moderator (original)
-   ├── main_analysis.R            # Author's main regression script (adapted, see header)
-   └── problem_level_analysis.R   # Author's problem-level script (adapted, see header)
+   ├── main_analysis.R            # Author's main regression script (verbatim copy, see header)
+   └── problem_level_analysis.R   # Author's problem-level script (verbatim copy, see header)
 ├── data/
    ├── simulated_data.csv         # Simulated data
    ├── final_data.csv             # Author-shared data CSV
@@ -55,7 +59,7 @@ Requires R and the [Quarto CLI](https://quarto.org/docs/get-started/) installed 
 ```r
 install.packages(c("here", "truncnorm", "lmtest", "sandwich", "dplyr",
                     "ggplot2", "ggridges", "tidyr", "knitr", "broom",
-                    "ggdag", "cobalt"))
+                    "ggdag"))
 ```
 
 2. Render the report:
@@ -68,9 +72,7 @@ This generates `index.html` and/or `index.pdf` plus `data/simulated_data.csv`.
 
 ## Extending the Analysis using Author-shared Data
 
-The tables below describe the full author-shared dataset from the upstream [GenAICanHarmLearning](https://github.com/obastani/GenAICanHarmLearning) repo. This project currently vendors `final_data.csv` (and derived `final_data.sqlite`) under `data/`. The other files and folders below live in the upstream repo and aren't yet pulled into this one; they're documented here as a reference for anyone extending `main_analysis.R` or `problem_level_analysis.R`, or adding new analyses.
-
-> **Note:** confirm which of the folders below are already present locally before extending the scripts. If any have been vendored into `data/`, update the project structure tree above to match.
+The tables below describe the full author-shared dataset from the upstream [GenAICanHarmLearning](https://github.com/obastani/GenAICanHarmLearning) repo. This project currently vendors `final_data.csv` (and derived `final_data.sqlite`) under `data/`. The other files and folders below live in the upstream repo only; they're documented here as a reference for anyone extending `main_analysis.R` or `problem_level_analysis.R`, or adding new analyses.
 
 ### Author-shared Data includes:
 
@@ -85,14 +87,14 @@ The tables below describe the full author-shared dataset from the upstream [GenA
 
 | Column                                           | Description                                                                           |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------- |
-| `Student_ID`                                     | Unique identifier for each student                                                    |
+| `Student ID`                                     | Unique identifier for each student                                                    |
 | `Class`                                          | Class identifier                                                                      |
 | `Year`                                           | Academic year                                                                         |
 | `Session`                                        | The experiment session identifier                                                     |
 | `Grader`                                         | Grader identifier                                                                     |
 | `Part2Tot`                                       | Part 2 student score                                                                  |
 | `Part3Tot`                                       | Part 3 student score                                                                  |
-| `Survey_Q1`–`Survey_Q5`                          | Responses to survey questions                                                         |
+| `Survey Q1`–`Survey Q5`                          | Responses to survey questions                                                         |
 | `gpa_prev`                                       | Previous GPA of the student                                                           |
 | `GPTBase`, `GPTTutor`                            | Indicators for treatment assignment                                                   |
 | `teacher`                                        | Teacher identifier                                                                    |
@@ -104,7 +106,7 @@ The tables below describe the full author-shared dataset from the upstream [GenA
 | `hw_help`                                        | Indicator of whether the student receives help for homework                           |
 | `private_tutorship`, `visit_training_center`     | Indicator of whether the student receives private tutorship or visits training center |
 | `chatgpt_use`                                    | Self-reported indicator of whether the student has previous experience with ChatGPT   |
-| `Treatment_arm`                                  | Treatment assignment                                                                  |
+| `Treatment arm`                                  | Treatment assignment                                                                  |
 | `female`                                         | Gender indicator                                                                      |
 | `education_parent`                               | Parental education                                                                    |
 | `n_household_children`                           | Number of children in household                                                       |

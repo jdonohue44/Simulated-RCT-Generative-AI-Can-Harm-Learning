@@ -1,5 +1,5 @@
-# real_data_analysis.R — P0: Main regression, covariate balance, moderator analysis
-# Uses author-shared final_data.csv from GenAICanHarmLearning repository
+# real_data_analysis.R — Main regression, covariate balance, moderator analysis
+# Uses the author-shared final_data.csv vendored at data/final_data.csv
 
 library(here)
 library(dplyr)
@@ -11,7 +11,7 @@ library(knitr)
 library(broom)
 
 # Paths
-FINAL_DATA_PATH <- here("..", "GenAICanHarmLearning", "main_regressions", "final_data.csv")
+FINAL_DATA_PATH <- here("data", "final_data.csv")
 OUTPUT_TABLES  <- here("outputs", "tables")
 OUTPUT_FIGURES <- here("outputs", "figures")
 
